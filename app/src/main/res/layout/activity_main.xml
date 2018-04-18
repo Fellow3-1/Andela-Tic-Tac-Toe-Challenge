@@ -56,13 +56,17 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
-                <ImageView
+                <TextView
+                    android:id="@+id/game_name"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:contentDescription="@null"
-                    android:src="@drawable/player1"
-                    android:/>
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textColor="#333"
+                    android:textSize="40sp"
+                    android:textStyle="bold"
+                    android:text="TIC-TAC-TOE"/>
 
                 <TextView
                     android:id="@+id/txt_score"
@@ -75,12 +79,6 @@
                     android:textSize="40sp"
                     android:textStyle="bold" />
 
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:contentDescription="@null"
-                    android:src="@drawable/player2" />
             </LinearLayout>
 
             <LinearLayout
@@ -93,7 +91,7 @@
                 <Button
                     android:id="@+id/btn_clear"
                     style="@style/Button"
-                    android:background="#3f1dee"
+                    android:background="#d30443"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="5dp"
@@ -104,7 +102,7 @@
                 <Button
                     android:id="@+id/btn_sound"
                     style="@style/Button"
-                    android:background="#3f1dee"
+                    android:background="#9febfe"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="5dp"
@@ -120,7 +118,7 @@
                 android:layout_height="0dp"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:background="#dd311a"
+                android:background="#0299be"
                 android:onClick="onClick"
                 android:text="SINGLE PLAYER" />
 
@@ -130,14 +128,14 @@
                 android:layout_height="0dp"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:background="#dd311a"
+                android:background="#0299be"
                 android:onClick="onClick"
                 android:text="PLAY A FRIEND" />
 
             <Button
                 android:id="@+id/btn_exit"
                 style="@style/Button"
-                android:background="#3f1dee"
+                android:background="#012d38"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginTop="10dp"

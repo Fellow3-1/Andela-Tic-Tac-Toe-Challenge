@@ -47,7 +47,7 @@ public class MainActivity extends Activity {
     int screen_height;
     MediaPlayer mp = new MediaPlayer();
     int num_games = 0;
-    // show_main
+
     Runnable show_main = new Runnable() {
         public void run() {
             findViewById(R.id.game).setVisibility(View.GONE);
@@ -55,9 +55,9 @@ public class MainActivity extends Activity {
             ((TextView) findViewById(R.id.txt_score)).setText(sp.getInt("player1", 0) + ":" + sp.getInt("player2", 0));
         }
     };
-    // computer_go
 
-    //added tests
+
+
     Runnable computer_go = new Runnable() {
         @Override
         public void run() {
@@ -66,12 +66,12 @@ public class MainActivity extends Activity {
             else {
                 List<Integer> temp_array = new ArrayList<Integer>();
 
-                // get free cells
+
                 for (int i = 0; i < cells.size(); i++)
                     if (cells.get(i).isEnabled())
                         temp_array.add(i);
 
-                // click on random free cell
+
                 int random_cell = temp_array.get((int) Math.round(Math.random() * (temp_array.size() - 1)));
                 CELL_CLICK(cells.get(random_cell));
             }
@@ -85,15 +85,15 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // fullscreen
+
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        // preferences
+
         sp = PreferenceManager.getDefaultSharedPreferences(this);
 
-        // AdMob smart banner
 
-        // bg sound
+
+
         try {
             mp = new MediaPlayer();
             AssetFileDescriptor descriptor = getAssets().openFd("snd_bg.mp3");
@@ -107,13 +107,13 @@ public class MainActivity extends Activity {
         } catch (Exception e) {
         }
 
-        // if mute
+
         if (sp.getBoolean("mute", false))
             ((Button) findViewById(R.id.btn_sound)).setText(getString(R.string.btn_sound));
         else
             mp.setVolume(0.5f, 0.5f);
 
-        // SoundPool
+
         sndpool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
         try {
             snd_click = sndpool.load(getAssets().openFd("snd_click.mp3"), 1);
@@ -121,7 +121,7 @@ public class MainActivity extends Activity {
         } catch (IOException e) {
         }
 
-        // hide navigation bar listener
+
         findViewById(R.id.all).setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
             @Override
             public void onSystemUiVisibilityChange(int visibility) {
@@ -129,7 +129,7 @@ public class MainActivity extends Activity {
             }
         });
 
-        // add cells
+
         for (int i = 0; i < 9; i++) {
             ImageView cell = new ImageView(this);
             cell.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -138,12 +138,12 @@ public class MainActivity extends Activity {
             ((ViewGroup) findViewById(R.id.frame)).addView(cell);
             cells.add(cell);
 
-            // touch listener
+
             cell.setOnTouchListener(new View.OnTouchListener() {
                 @SuppressLint("ClickableViewAccessibility")
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    // cell click
+
                     if (event.getAction() == MotionEvent.ACTION_DOWN && v.isEnabled()
                             && ((single_game && !player1) || !single_game))
                         CELL_CLICK(v);
@@ -152,20 +152,20 @@ public class MainActivity extends Activity {
             });
         }
 
-        // custom font
+
         Typeface font = Typeface.createFromAsset(getAssets(), "CooperBlack.otf");
         ((TextView) findViewById(R.id.mess)).setTypeface(font);
 
         SCALE();
     }
 
-    // SCALE
+
     void SCALE() {
-        // text
+
         ((TextView) findViewById(R.id.mess)).setTextSize(TypedValue.COMPLEX_UNIT_PX, DpToPx(26));
         ((TextView) findViewById(R.id.txt_score)).setTextSize(TypedValue.COMPLEX_UNIT_PX, DpToPx(26));
 
-        // buttons text
+
         ((TextView) findViewById(R.id.btn_clear)).setTextSize(TypedValue.COMPLEX_UNIT_PX, DpToPx(30));
         ((TextView) findViewById(R.id.btn_sound)).setTextSize(TypedValue.COMPLEX_UNIT_PX, DpToPx(30));
         ((TextView) findViewById(R.id.btn_start1)).setTextSize(TypedValue.COMPLEX_UNIT_PX, DpToPx(26));
@@ -173,7 +173,7 @@ public class MainActivity extends Activity {
         ((TextView) findViewById(R.id.btn_exit)).setTextSize(TypedValue.COMPLEX_UNIT_PX, DpToPx(40));
     }
 
-    // START
+
     void START() {
         player1 = true;
         num_pressed = 0;
@@ -181,18 +181,18 @@ public class MainActivity extends Activity {
         findViewById(R.id.main).setVisibility(View.GONE);
         findViewById(R.id.mess).setVisibility(View.GONE);
 
-        // screen size
+
         screen_width = findViewById(R.id.all).getWidth();
         screen_height = findViewById(R.id.all).getHeight();
 
-        // cell size
+
         int cell_size = (int) ((screen_width - DpToPx(20)) / 3);
 
-        // frame size and position
+
         findViewById(R.id.frame).getLayoutParams().width = cell_size * 3;
         findViewById(R.id.frame).getLayoutParams().height = cell_size * 3;
 
-        // cells at start
+
         int x_pos = 0;
         int y_pos = 0;
         for (int i = 0; i < cells.size(); i++) {
@@ -212,29 +212,29 @@ public class MainActivity extends Activity {
                 y_pos++;
             }
         }
-        // computer go
+
         if (single_game)
             h.postDelayed(computer_go, 500);
     }
 
-    // onClick
+
     public void onClick(View v) {
         SharedPreferences.Editor ed = sp.edit();
 
         switch (v.getId()) {
             case R.id.btn_start1:
-                // single player game
+
                 single_game = true;
                 comp_first = true;
                 START();
                 break;
             case R.id.btn_start2:
-                // multiple player game
+
                 single_game = false;
                 START();
                 break;
             case R.id.btn_clear:
-                // clear scores
+
                 ed.remove("player1");
                 ed.remove("player2");
                 ed.commit();
@@ -244,7 +244,7 @@ public class MainActivity extends Activity {
                 finish();
                 break;
             case R.id.btn_sound:
-                // sound
+
                 if (sp.getBoolean("mute", false)) {
                     ed.putBoolean("mute", false);
                     mp.setVolume(0.5f, 0.5f);
@@ -259,15 +259,15 @@ public class MainActivity extends Activity {
         }
     }
 
-    // CELL_CLICK
+
     void CELL_CLICK(View v) {
         v.setEnabled(false);
 
-        // sound
+
         if (!sp.getBoolean("mute", false) && isForeground)
             sndpool.play(snd_click, 0.4f, 0.4f, 0, 0, 1);
 
-        // set cell icon
+
         if (player1) {
             ((ImageView) v).setImageResource(R.drawable.player1);
             cells_values[Integer.valueOf(v.getTag().toString())] = 1;
@@ -278,9 +278,9 @@ public class MainActivity extends Activity {
         player1 = !player1;
         num_pressed++;
 
-        // check winner
+
         if (check_winner(1)) {
-            // save result
+
             SharedPreferences.Editor ed = sp.edit();
             ed.putInt("player1", sp.getInt("player1", 0) + 1);
             ed.commit();
@@ -289,7 +289,7 @@ public class MainActivity extends Activity {
             return;
         }
         if (check_winner(2)) {
-            // save result
+
             SharedPreferences.Editor ed = sp.edit();
             ed.putInt("player2", sp.getInt("player2", 0) + 1);
             ed.commit();
@@ -297,30 +297,30 @@ public class MainActivity extends Activity {
             STOP(2);
             return;
         }
-        // no winner
+
         if (num_pressed == cells.size()) {
             STOP(0);
             return;
         }
 
-        // computer go
+
         if (single_game && player1)
             h.postDelayed(computer_go, 500);
     }
 
-    // STOP
+
     void STOP(int result) {
         num_games++;
 
-        // disable cells
+
         for (int i = 0; i < cells.size(); i++)
             cells.get(i).setEnabled(false);
 
-        // sound
+
         if (!sp.getBoolean("mute", false) && isForeground && (result == 1 || result == 2))
             sndpool.play(snd_win, 0.5f, 0.5f, 0, 0, 1);
 
-        // message
+
         switch (result) {
             case 0:
                 ((TextView) findViewById(R.id.mess)).setText(R.string.win0);
@@ -345,7 +345,7 @@ public class MainActivity extends Activity {
 
     }
 
-    // check_winner
+
     boolean check_winner(int player) {
         if (cells_values[0] == player && cells_values[1] == player && cells_values[2] == player) {
             show_animation(new int[]{0, 1, 2});
@@ -390,12 +390,12 @@ public class MainActivity extends Activity {
         return false;
     }
 
-    // show_animation
+
     void show_animation(int[] array) {
-        // AnimatorSet
+
         List<Animator> anim_list = new ArrayList<Animator>();
 
-        // create animation
+
         for (int i = 0; i < array.length; i++) {
             ObjectAnimator anim = ObjectAnimator.ofFloat(cells.get(array[i]), "scaleX", 0.5f);
             anim.setRepeatCount(5);
@@ -408,22 +408,22 @@ public class MainActivity extends Activity {
             anim_list.add(anim);
         }
 
-        // animate
+
         anim = new AnimatorSet();
         anim.playTogether(anim_list);
         anim.setDuration(200);
         anim.start();
     }
 
-    // DpToPx
+
     float DpToPx(float dp) {
         return (dp * Math.max(getResources().getDisplayMetrics().widthPixels, getResources().getDisplayMetrics().heightPixels) / 500f);
     }
 
-    // hide_navigation_bar
+
     @TargetApi(Build.VERSION_CODES.KITKAT)
     void hide_navigation_bar() {
-        // fullscreen mode
+
         if (android.os.Build.VERSION.SDK_INT >= 19) {
             getWindow().getDecorView().setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -479,7 +479,7 @@ public class MainActivity extends Activity {
         if (anim != null)
             anim.cancel();
 
-        // destroy AdMob
+
 
         super.onDestroy();
     }

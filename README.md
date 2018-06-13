@@ -4,14 +4,12 @@ Tic-Tac-Toe game is a popular two player game played on a square grid where the 
 
 ## Technologies used
 These include:
-
   -Figma
   -Butterknife
   -Android Studio 3.1 (stable)
 
 ## Application functions
 A user can be able to :
-
   -Select ‘x’ or ‘o’ markers
   -Reset the gameboard
   -See the scoreboard
